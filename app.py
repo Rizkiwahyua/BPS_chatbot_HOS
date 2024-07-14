@@ -8,6 +8,9 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain.callbacks import get_openai_callback
 import os
 
+# Load environment variables from Streamlit secrets
+openai_api_key = st.secrets["general"]["OPENAI_API_KEY"]
+
 # Display logo and header
 logo_path = "data/bps.png"
 
@@ -38,7 +41,6 @@ if os.path.exists(pdf_path):
     chunks = text_splitter.split_text(text)
     
     # Embeddings
-    openai_api_key = st.secrets["OPENAI_API_KEY"]
     embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
     knowledge_base = FAISS.from_texts(chunks, embeddings)
 else:
