@@ -6,12 +6,7 @@ from langchain.vectorstores import FAISS
 from langchain.llms import OpenAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.callbacks import get_openai_callback
-from dotenv import load_dotenv
 import os
-
-# Load environment variables
-load_dotenv(".env")
-
 
 # Display logo and header
 logo_path = "data/bps.png"
@@ -43,7 +38,8 @@ if os.path.exists(pdf_path):
     chunks = text_splitter.split_text(text)
     
     # Embeddings
-    embeddings = OpenAIEmbeddings()
+    openai_api_key = st.secrets["OPENAI_API_KEY"]
+    embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
     knowledge_base = FAISS.from_texts(chunks, embeddings)
 else:
     st.error("File PDF tidak ditemukan. Pastikan path file sudah benar 😺.")
@@ -54,7 +50,7 @@ if pertanyaan:
     if 'knowledge_base' in locals():
         docs = knowledge_base.similarity_search(pertanyaan)
 
-        llm = OpenAI()
+        llm = OpenAI(openai_api_key=openai_api_key)
         chain = load_qa_chain(llm, chain_type='stuff')
         with get_openai_callback() as cb:
             response = chain.run(input_documents=docs, question=pertanyaan)
@@ -62,4 +58,3 @@ if pertanyaan:
         st.write(response)
     else:
         st.error("Knowledge base belum terinisialisasi. Pastikan file PDF sudah benar dan diproses.")
-
