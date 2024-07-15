@@ -23,7 +23,7 @@ else:
 st.title("BADAN PUSAT STATISTIK PROVINSI ACEH")
 
 # Replace file uploader with direct file path
-pdf_path = "data/ProfilBPS.pdf"  # Ganti dengan path ke file PDF Anda
+pdf_path = "data/data2024.pdf"  # Ganti dengan path ke file PDF Anda
 
 if os.path.exists(pdf_path):
     pdf_reader = PdfReader(pdf_path)
