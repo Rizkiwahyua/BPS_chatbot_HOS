@@ -12,7 +12,7 @@ import os
 openai_api_key = st.secrets["general"]["OPENAI_API_KEY"]
 
 # Display logo and header
-logo_path = "data/bps.png"
+logo_path = "foto/bps.png"
 
 # Check if the logo file exists
 if os.path.exists(logo_path):
